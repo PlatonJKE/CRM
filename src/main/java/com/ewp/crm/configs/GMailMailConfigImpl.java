@@ -18,6 +18,8 @@ public class GMailMailConfigImpl implements MailConfig {
     private String socketFactoryClass;
     private String socketFactoryFallback;
     private String protocol;
+    private String port;
+    private String useTls;
     private String debug;
     private String imapServer;
 
@@ -32,8 +34,13 @@ public class GMailMailConfigImpl implements MailConfig {
             socketFactoryClass = env.getRequiredProperty("mail.imap.socketFactory.class");
             socketFactoryFallback = env.getRequiredProperty("mail.imap.socketFactory.fallback");
             protocol = env.getRequiredProperty("mail.store.protocol");
+            port = env.getRequiredProperty("mail.tls.port");
+            useTls = env.getRequiredProperty("mail.smtp.starttls.enable");
             debug = env.getRequiredProperty("mail.debug");
             imapServer = env.getRequiredProperty("mail.imap.server");
+            logger.info("login: {}, pass: {}, mailFrom: {}, socFacCl: {}, socFacCb: {}, protocol: {}, " +
+                    "debug: {}, imapSer: {}", login, password, mailFrom, socketFactoryClass, socketFactoryFallback,
+                    protocol, debug, imapServer);
             if (login.isEmpty() || password.isEmpty() || mailFrom.isEmpty() || socketFactoryClass.isEmpty() ||
                     socketFactoryFallback.isEmpty() || protocol.isEmpty() || debug.isEmpty() || imapServer.isEmpty()) {
                 throw new NullPointerException();

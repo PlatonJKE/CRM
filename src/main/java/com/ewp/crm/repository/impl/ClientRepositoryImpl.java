@@ -128,7 +128,7 @@ public class ClientRepositoryImpl implements ClientRepositoryCustom {
 
     @Override
     public List<String> getFilteredClientsPhoneNumber(FilteringCondition filteringCondition) {
-        return entityManager.createQuery(createQueryForGetPhoneNumbers(filteringCondition)).getResultList();
+        return entityManager.createQuery(createQueryForGetPhoneNumbers(filteringCondition), String.class).getResultList();
     }
 
     @Override
