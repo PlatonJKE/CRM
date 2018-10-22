@@ -101,10 +101,12 @@ function addClient() {
 }
 
 function disableInputE() {
-	var disMas = [69, 187, 189, 109];
-	if (disMas.indexOf(event.keyCode)!==-1) {
-		event.preventDefault()
-	}
+    const disMas = [69, 187, 189, 109, 107];
+    console.log(event.keyCode);
+    console.log(disMas.indexOf(event.keyCode));
+    if (disMas.indexOf(event.keyCode) !== -1) {
+        event.preventDefault();
+    }
 }
 
 $(document).on('click', 'td', (function (e) {

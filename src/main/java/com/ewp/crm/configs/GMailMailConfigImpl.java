@@ -28,17 +28,17 @@ public class GMailMailConfigImpl implements MailConfig {
     @Autowired
     public GMailMailConfigImpl(Environment env) {
         try {
-            login = env.getRequiredProperty("google.mail.login").replaceAll("@", "%40");
+            login = env.getRequiredProperty("google.mail.login");//.replaceAll("@", "%40");
             password = env.getRequiredProperty("google.mail.password");
             mailFrom = env.getRequiredProperty("mail.from");
             socketFactoryClass = env.getRequiredProperty("mail.imap.socketFactory.class");
             socketFactoryFallback = env.getRequiredProperty("mail.imap.socketFactory.fallback");
             protocol = env.getRequiredProperty("mail.store.protocol");
-            port = env.getRequiredProperty("mail.tls.port");
-            useTls = env.getRequiredProperty("mail.smtp.starttls.enable");
+//            port = env.getRequiredProperty("mail.tls.port");
+//            useTls = env.getRequiredProperty("mail.smtp.starttls.enable");
             debug = env.getRequiredProperty("mail.debug");
             imapServer = env.getRequiredProperty("mail.imap.server");
-            logger.info("login: {}, pass: {}, mailFrom: {}, socFacCl: {}, socFacCb: {}, protocol: {}, " +
+            logger.warn("login: {}, pass: {}, mailFrom: {}, socFacCl: {}, socFacCb: {}, protocol: {}, " +
                     "debug: {}, imapSer: {}", login, password, mailFrom, socketFactoryClass, socketFactoryFallback,
                     protocol, debug, imapServer);
             if (login.isEmpty() || password.isEmpty() || mailFrom.isEmpty() || socketFactoryClass.isEmpty() ||
