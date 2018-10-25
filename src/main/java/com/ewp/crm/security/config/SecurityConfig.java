@@ -48,8 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/login?logout")
 				.invalidateHttpSession(true)
 				.permitAll();
-
-
 		http
 				.sessionManagement()
 				.maximumSessions(10000)
