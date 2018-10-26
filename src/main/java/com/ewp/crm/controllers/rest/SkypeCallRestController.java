@@ -53,7 +53,7 @@ public class SkypeCallRestController {
 			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm МСК");
 			ZonedDateTime dateOfSkypeCall = LocalDateTime.parse(date, dateTimeFormatter).atZone(ZoneId.of("Europe/Moscow")).minusHours(1);
 			ZonedDateTime remindBeforeSkypeCall = LocalDateTime.parse(date, dateTimeFormatter).atZone(ZoneId.of("Europe/Moscow")).minusHours(1);
-			ZonedDateTime zonedDateTimeNow = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("Europe/Moscow")).minusHours(1);
+			ZonedDateTime zonedDateTimeNow = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("Europe/Moscow"));
 			if (dateOfSkypeCall.isBefore(zonedDateTimeNow) || dateOfSkypeCall.isEqual(zonedDateTimeNow)) {
 				logger.info("Incorrect date set: {}", date);
 				return ResponseEntity.badRequest().body("Дата должна быть позже текущей даты");

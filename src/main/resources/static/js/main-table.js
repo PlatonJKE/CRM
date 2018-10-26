@@ -1071,7 +1071,7 @@ $(function () {
 });
 
 $(document).on('click','.confirm-skype-btn', function (e) {
-    startDateOld = $('input[name="skypePostponeDateOld"]').data('daterangepicker').startDate._i;
+    startDateOld = $('input[name="skypePostponeDateOld"]').data('daterangepicker').startDate._d;
     idMentor = document.getElementsByTagName("option")[document.getElementById("mentor").selectedIndex].value;
     var currentForm = $('.box-window');
     var skypeBtn = $('.skype-postpone-date');
@@ -1161,9 +1161,9 @@ function updateCallDate(id) {
         data: formData,
         dataType: 'json',
         success: function (client) {
-            var date = new Date(client.dateCallSkype);
-            var oldDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes() , 0, 0);
-            var startDate = moment(oldDate);
+            var date = new Date();
+            var oldDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), Math.ceil((date.getMinutes() +1)/10)*10, 0, 0);
+            var startDate = moment(oldDate).utcOffset(180);
             btnBlockTask.attr('id', 'assign-skype' + clientId);
             // Get the list of mentors
             $.ajax({
@@ -1209,7 +1209,7 @@ function updateCallDate(id) {
             $('input[name="skypePostponeDateNew"]').daterangepicker({
                 singleDatePicker: true,
                 timePicker: true,
-                timePickerIncrement: 1,
+                timePickerIncrement: 10,
                 timePicker24Hour: true,
                 timeZone: 'Europe/Moscow',
                 locale: {
@@ -1404,7 +1404,7 @@ function assignSkype(id) {
     var formData = {clientId: clientId};
     var nowDate = new Date();
     var minutes =  Math.ceil((nowDate.getMinutes() +1)/10)*10;
-    var minDate = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), nowDate.getHours(), minutes , 0, 0);
+    var minDate = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), nowDate.getHours() + (nowDate.getTimezoneOffset()/60) + 3, minutes , 0, 0);
     var startDate = moment(minDate).utcOffset(180);
     $.ajax({
         type: 'GET',
