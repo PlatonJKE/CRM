@@ -20,28 +20,29 @@ function sendMessages(sendnow) {
     let recipients = $('#addresses-area').val();
     console.warn(recipients);
     let x;
-    if (type !== "email") {
+    if (messageType !== "email") {
         x = text.value;
     } else {
         x = "";
     }
     let wrap = {
         sendnow: sendnow,
-        type: type,
-        content: text,
-        text: x,
+        clientData: recipients,
+        type: messageType,
+        content: "text",
+        text: "TEST",
         date: date,
-        clientData: clientData
+        templateText: "TEST"
     };
     $.ajax({
-        type: "POST",
         url: URL_POST_DATA,
+        type: "POST",
         data: wrap,
         success: function (result) {
-            console.log("success " + result);
+            console.log("Success! " + result);
         },
-        error: function (error) {
-            console.log("неверный формат записи, добавте clientData перед данными\n" + error);
+        error: function (xhr) {
+            console.log("An error has occurred! " + xhr.status + " " + xhr.statusText);
         }
     });
 }

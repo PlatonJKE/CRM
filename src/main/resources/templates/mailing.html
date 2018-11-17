@@ -4,15 +4,16 @@
     <meta charset="UTF-8"/>
     <title>CRM - рассылка</title>
 
-    <div th:replace="fragments/htmlFragments::header"></div>
+    <!--<div th:replace="fragments/htmlFragments::header"></div>-->
     <link href="/css/bootstrap-social.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
-    <div th:replace="fragments/htmlFragments::custom-style"></div>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css"/>
+    <!--<div th:replace="fragments/htmlFragments::custom-style"></div>-->
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
+            <!--integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
+            <!--crossorigin="anonymous"/>-->
 
     <!--из локальной коппии, так как конфигурация редактора кастомная-->
     <script src="/ckeditor/ckeditor.js"/>
@@ -22,7 +23,11 @@
 
     <script type="text/javascript" src="/js/mailing.js"></script>
 
-    <script th:src="@{/webjars/bootstrap/4.1.2/js/bootstrap.bundle.js}"></script>
+    <!--<script th:src="@{/webjars/bootstrap/4.1.2/js/bootstrap.bundle.js}"></script>-->
+    <!--<script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.js}"></script>-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="/css/mailing.css"/>
 
 </head>
@@ -34,7 +39,6 @@
 
 <div style="margin: 4%">
     <div class="container-fluid" id="header">
-        <!--Панель навигации. Убрана, тк не работает, нет нужных полей у некоторых объектов, что обрушивает Thymeleaf-->
         <div th:replace="fragments/htmlFragments::top-navigation-panel"></div>
     </div>
     <div class="container-fluid" id="menu-block">
@@ -54,7 +58,8 @@
                         <span class="input-group-text text-light bg-info" id="date-addon">Date</span>
                     </div>
                     <div class="col-sm-11">
-                        <input type="text" class="form-control" aria-label="Date" aria-describedby="date-addon" name="messageSendingTime" id="messageSendingTime"/>
+                        <input type="text" class="form-control" aria-label="Date" aria-describedby="date-addon"
+                               name="messageSendingTime" id="messageSendingTime"/>
                     </div>
                 </div>
             </div>
