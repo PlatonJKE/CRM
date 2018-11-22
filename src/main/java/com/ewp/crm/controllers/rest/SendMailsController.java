@@ -112,13 +112,14 @@ public class SendMailsController {
     }
 
 
-
     @Value("${ckeditor.img.upload.path}")
     String uploadPath;
     @Value("${ckediror.img.uri}")
     String uploadUri;
     @Value("${ckeditor.img.upload.target.path}")
     String uploadTargetPath;
+    @Value("${ckeditor.img.upload.target.path.tmp}")
+    String uploadTargetPathTmp;
 
     @PreAuthorize("hasAnyAuthority('OWNER', 'ADMIN')")
     @PostMapping(value = "/image/upload", produces = "application/json")
@@ -129,23 +130,27 @@ public class SendMailsController {
 
         File destFile;
         File destTargetFile;
+        File destTmpTargetFile;
         String destFileName;
 
         String absolutePath = System.getProperty("user.dir");
 
         String contextPath = this.getClass().getResource("/").getFile();
-        destFileName = String.valueOf(System.currentTimeMillis())+"."+sourceExt;
+        destFileName = String.valueOf(System.currentTimeMillis()) + "." + sourceExt;
 
-        destFile = new File(FilenameUtils.separatorsToSystem(absolutePath+uploadPath+destFileName));
-        destTargetFile = new File(FilenameUtils.separatorsToSystem(contextPath+uploadTargetPath+destFileName));
+        destFile = new File(FilenameUtils.separatorsToSystem(absolutePath + uploadPath + destFileName));
+        destTargetFile = new File(FilenameUtils.separatorsToSystem(contextPath + uploadTargetPath + destFileName));
+        destTmpTargetFile = new File((uploadTargetPathTmp + destFileName));
 
         destFile.getParentFile().mkdirs();
         destTargetFile.getParentFile().mkdirs();
+        destTmpTargetFile.getParentFile().mkdirs();
 
+        upload.transferTo(destTmpTargetFile);
         upload.transferTo(destFile);
         upload.transferTo(destTargetFile);
 
-        URI imgUrl = URI.create(request.getScheme()+"://"+request.getServerName()+uploadUri+destFileName);
+        URI imgUrl = URI.create(request.getScheme() + "://" + request.getServerName() + uploadUri + destFileName);
 
         ImageUploadDto imageUploadDto = new ImageUploadDto(destFileName, imgUrl);
 
