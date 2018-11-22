@@ -7,7 +7,6 @@ import com.ewp.crm.models.dto.ImageUploadDto;
 import com.ewp.crm.repository.interfaces.MailingMessageRepository;
 import com.ewp.crm.service.email.MailingService;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -24,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.file.FileSystems;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -125,15 +123,19 @@ public class SendMailsController {
     @PreAuthorize("hasAnyAuthority('OWNER', 'ADMIN')")
     @PostMapping(value = "/image/upload", produces = "application/json")
     public ResponseEntity<ImageUploadDto> upload(@RequestPart MultipartFile upload, HttpServletRequest request) throws IOException {
+
         String sourceName = upload.getOriginalFilename();
         String sourceExt = FilenameUtils.getExtension(sourceName).toLowerCase();
+
         File destFile;
         File destTargetFile;
         String destFileName;
 
+        String absolutePath = new File(".").getAbsolutePath();
         destFileName = String.valueOf(System.currentTimeMillis())+"."+sourceExt;
-        destFile = new File(uploadPath+destFileName);
-        destTargetFile = new File(uploadTargetPath+destFileName);
+
+        destFile = new File(FilenameUtils.separatorsToSystem(absolutePath+uploadPath+destFileName));
+        destTargetFile = new File(FilenameUtils.separatorsToSystem(absolutePath+uploadTargetPath+destFileName));
 
         destFile.getParentFile().mkdirs();
         destTargetFile.getParentFile().mkdirs();
@@ -143,8 +145,9 @@ public class SendMailsController {
 
         URI imgUrl = URI.create(request.getScheme()+"://"+request.getServerName()+uploadUri+destFileName);
 
-        ImageUploadDto imageUploadDto = new ImageUploadDto(1, destFileName, imgUrl);
+        ImageUploadDto imageUploadDto = new ImageUploadDto(destFileName, imgUrl);
 
         return new ResponseEntity<>(imageUploadDto, HttpStatus.OK);
     }
+
 }
