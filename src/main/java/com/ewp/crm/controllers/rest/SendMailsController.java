@@ -131,11 +131,13 @@ public class SendMailsController {
         File destTargetFile;
         String destFileName;
 
-        String absolutePath = new File(".").getAbsolutePath();
+        String absolutePath = System.getProperty("user.dir");
+
+        String contextPath = this.getClass().getResource("/").getFile();
         destFileName = String.valueOf(System.currentTimeMillis())+"."+sourceExt;
 
         destFile = new File(FilenameUtils.separatorsToSystem(absolutePath+uploadPath+destFileName));
-        destTargetFile = new File(FilenameUtils.separatorsToSystem(absolutePath+uploadTargetPath+destFileName));
+        destTargetFile = new File(FilenameUtils.separatorsToSystem(contextPath+uploadTargetPath+destFileName));
 
         destFile.getParentFile().mkdirs();
         destTargetFile.getParentFile().mkdirs();
@@ -149,5 +151,6 @@ public class SendMailsController {
 
         return new ResponseEntity<>(imageUploadDto, HttpStatus.OK);
     }
+
 
 }
