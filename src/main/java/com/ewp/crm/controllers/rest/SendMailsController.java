@@ -112,14 +112,14 @@ public class SendMailsController {
     }
 
 
-    @Value("${ckeditor.img.upload.path}")
-    String uploadPath;
     @Value("${ckediror.img.uri}")
     String uploadUri;
+    @Value("${ckeditor.img.upload.tmp}")
+    String uploadTargetPathTmp;
+    @Value("${ckeditor.img.upload.path}")
+    String uploadPath;
     @Value("${ckeditor.img.upload.target.path}")
     String uploadTargetPath;
-    @Value("${ckeditor.img.upload.target.path.tmp}")
-    String uploadTargetPathTmp;
 
     @PreAuthorize("hasAnyAuthority('OWNER', 'ADMIN')")
     @PostMapping(value = "/image/upload", produces = "application/json")
@@ -137,18 +137,19 @@ public class SendMailsController {
 
         String contextPath = this.getClass().getResource("/").getFile();
         destFileName = String.valueOf(System.currentTimeMillis()) + "." + sourceExt;
+        String realPath = request.getServletContext().getRealPath("/");
 
         destFile = new File(FilenameUtils.separatorsToSystem(absolutePath + uploadPath + destFileName));
         destTargetFile = new File(FilenameUtils.separatorsToSystem(contextPath + uploadTargetPath + destFileName));
-        destTmpTargetFile = new File((uploadTargetPathTmp + destFileName));
+        destTmpTargetFile = new File(FilenameUtils.separatorsToSystem(realPath + uploadTargetPathTmp + destFileName));
 
         destFile.getParentFile().mkdirs();
         destTargetFile.getParentFile().mkdirs();
         destTmpTargetFile.getParentFile().mkdirs();
-
-        upload.transferTo(destTmpTargetFile);
+        System.out.println(destTmpTargetFile.getAbsolutePath());
         upload.transferTo(destFile);
         upload.transferTo(destTargetFile);
+        upload.transferTo(destTmpTargetFile);
 
         URI imgUrl = URI.create(request.getScheme() + "://" + request.getServerName() + uploadUri + destFileName);
 
@@ -157,5 +158,5 @@ public class SendMailsController {
         return new ResponseEntity<>(imageUploadDto, HttpStatus.OK);
     }
 
-
+///tmp/tomcat-docbase.1516395696315115244.9999/target/classes/static/images/1542906274901.png
 }
