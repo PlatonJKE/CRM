@@ -44,7 +44,6 @@ public class VKServiceImpl implements VKService {
     private final MessageService messageService;
     private final SocialProfileTypeService socialProfileTypeService;
     private final UserService userService;
-    private final MessageTemplateService messageTemplateService;
     private final ProjectPropertiesService projectPropertiesService;
     private final VkRequestFormService vkRequestFormService;
     private final VkMemberService vkMemberService;
@@ -100,7 +99,6 @@ public class VKServiceImpl implements VKService {
         this.messageService = messageService;
         this.socialProfileTypeService = socialProfileTypeService;
         this.userService = userService;
-        this.messageTemplateService = messageTemplateService;
         this.projectPropertiesService = projectPropertiesService;
         this.vkRequestFormService = vkRequestFormService;
         this.vkMemberService = vkMemberService;

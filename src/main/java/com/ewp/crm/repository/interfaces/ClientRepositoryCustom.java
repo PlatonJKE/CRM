@@ -14,7 +14,7 @@ public interface ClientRepositoryCustom {
 
 	void addBatchClients(List<Client> clients);
 
-	List getClientsEmail();
+	List<String> getClientsEmail();
 
 	List<String> getClientsPhoneNumber();
 

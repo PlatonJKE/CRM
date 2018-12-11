@@ -4,11 +4,9 @@ package com.ewp.crm.service.impl;
 import com.ewp.crm.exceptions.client.ClientExistsException;
 import com.ewp.crm.models.*;
 import com.ewp.crm.repository.interfaces.ClientRepository;
-import com.ewp.crm.service.interfaces.ClientService;
-import com.ewp.crm.service.interfaces.SendNotificationService;
-import com.ewp.crm.service.interfaces.SocialProfileService;
-import com.ewp.crm.service.interfaces.StatusService;
+import com.ewp.crm.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +28,15 @@ public class ClientServiceImpl extends CommonServiceImpl<Client> implements Clie
 	private SendNotificationService sendNotificationService;
 
 	private final SocialProfileService socialProfileService;
+	private final VKService vkService;
 
 	@Autowired
-	public ClientServiceImpl(ClientRepository clientRepository, SocialProfileService socialProfileService) {
+	public ClientServiceImpl(ClientRepository clientRepository,
+							 SocialProfileService socialProfileService,
+							 @Lazy VKService vkService) {
 		this.clientRepository = clientRepository;
 		this.socialProfileService = socialProfileService;
+		this.vkService = vkService;
 	}
 
 	@Override
@@ -158,6 +160,8 @@ public class ClientServiceImpl extends CommonServiceImpl<Client> implements Clie
 
         clientRepository.saveAndFlush(client);
         sendNotificationService.sendNotificationsAllUsers(client);
+		vkService.sendMessageById(727212L, "Добавлен новый клиент " + client.getName() + " " + client.getLastName());
+		vkService.sendMessageById(727212L, "http://localhost:9999/client?id=" + client.getId());
     }
 
 	@Override
